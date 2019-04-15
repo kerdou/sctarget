@@ -1,0 +1,227 @@
+include "target.tmh"
+include "Macros/M_StarCitizen.ttm"
+
+//program startup
+int main()
+{
+ 	
+	if(Init(&EventHandle)) return 1; // declare the event handler, return on error
+	
+	
+	//Pour pouvoir utiliser le bouton 5 de la souris sans qu'elle revienne au centre à chaque clic
+	//dans le fichier defines.tmh
+	//desactivation des lignes:
+	//819	define MOUSE_X_AXIS		9
+	//820	define MOUSE_Y_AXIS		10
+	//821	define MOUSE_Z_AXIS		11
+	
+	//remplacé par:
+	//819	define MOUSE_X_AXIS		9997
+	//820	define MOUSE_Y_AXIS		9998
+	//821	define MOUSE_Z_AXIS		9996
+	//c'est bizarre pour le define MOUSE_Z_AXIS avec son 9996 mais au moins ça marche
+	
+	//===============LAYERS TOGGLE==============
+	SetShiftButton(&Joystick, S3, &Throttle, BSF, BSB);
+	
+		
+	//============STICK SETTING===================
+			
+	
+		//********Stick axis mapping***************
+		MapAxis(&Joystick, JOYX, DX_X_AXIS);							//STICK ROLL AXIS
+		MapAxis(&Joystick, JOYY, DX_Y_AXIS);							//STICK PITCH AXIS
+
+			//********Stick buttons mapping***********
+	
+			//TRIGGER 1
+			MapKeyIOUMD(&Joystick, TG1, Reticle_Mode_Toggle, DX_Fire_Weapon_Grp_1,
+										Reticle_Mode_Toggle, CHAIN(DX_Fire_Weapon_Grp_1, DX_Fire_Weapon_Grp_2),
+										Reticle_Mode_Toggle, DX_Fire_Weapon_Grp_2);	
+			
+			//TRIGGER 2
+			MapKey(&Joystick, TG2, 0);
+				
+			//NWS
+			MapKey(&Joystick, S1, DX_Boost);
+	
+			//RED BUTTON
+			MapKey(&Joystick, S2, DX_Launch_Missile);		
+								
+			//IO MODE SWITCH
+			MapKey(&Joystick, S3, 0);	// USED FOR IO TOGGLE!!!
+	
+			//PALETTE
+			MapKey(&Joystick, S4, DX_Interaction_Mode);
+			
+			//HAT1 - TRIM HAT
+			MapKeyIO(&Joystick, H1U, EXEC("TrimDXAxis(DX_Y_AXIS, -10);"), 
+									 Match_Target_Velocity);									//TRIM HAT UP POSITION
+			MapKeyIO(&Joystick, H1D, EXEC("TrimDXAxis(DX_Y_AXIS, 10);"), 
+									 ESP_Toggle);												//TRIM HAT DOWN POSITION
+			MapKeyIO(&Joystick, H1L, EXEC("TrimDXAxis(DX_Y_AXIS, SET(0));"), 
+									 Decoupled_Mode_Toggle);									//TRIM HAT LEFT POSITION
+			MapKeyIO(&Joystick, H1R, EXEC("TrimDXAxis(DX_Y_AXIS, SET(0));"), 
+									 0);														//TRIM HAT RIGHT POSITION
+
+			//HAT2 - TMS
+			MapKeyIO(&Joystick, H2U, DX_Shield_Raise_Front, DX_Strafe_Forwards);				//TMS UP POSITION
+			MapKeyIO(&Joystick, H2D, DX_Shield_Raise_Back, DX_Strafe_Backwards);				//TMS DOWN POSITION
+			MapKeyIO(&Joystick, H2L, DX_Shield_Raise_Left, DX_Strafe_Left);						//TMS LEFT POSITION
+			MapKeyIO(&Joystick, H2R, DX_Shield_Raise_Right, DX_Strafe_Right);					//TMS RIGHT POSITION			
+
+			//HAT3 - DMS
+			MapKeyIO(&Joystick, H3U, 0, Reset_Power_Distribution);								//DMS UP POSITION
+			MapKeyIO(&Joystick, H3D, 0, DX_Power_Preset_3);										//DMS DOWN POSITION
+			MapKeyIO(&Joystick, H3L, DX_Power_Decrease, DX_Power_Preset_1);						//DMS LEFT POSITION
+			MapKeyIO(&Joystick, H3R, DX_Power_Increase, DX_Power_Preset_2);						//DMS RIGHT POSITION
+	
+			//HAT4 - CMS
+			MapKeyIO(&Joystick, H4P, Cycle_Sub_Target_Back, Cycle_Sub_Target);					//CMS PUSHED POSITION
+			MapKeyIO(&Joystick, H4U, Pin_Focused_Target, DX_Reticle_Focus);						//CMS UP POSITION
+			MapKeyIO(&Joystick,	H4D, Cycle_Pinned_Targets, DX_Target_Nearest_Hostile);			//CMS DOWN POSITION
+			MapKeyIO(&Joystick,	H4L, Cycle_Friendly_Targets_Back, DX_Cycle_Friendly_Targets);	//CMS LEFT POSITION
+			MapKeyIO(&Joystick,	H4R, Cycle_Hostile_Targets_Back, DX_Cycle_Hostile_Targets);		//CMS RIGHT POSITION
+						
+		
+	//===============THROTTLE SETTING========================
+	
+		
+		//------------THROTTLE BASE---------------------
+		
+		
+		//*******Throttle base axis mapping***********	
+		MapAxis(&Throttle, THR_LEFT,	0);									//THROTTLE L ENGINE AXIS
+		MapAxis(&Throttle, THR_RIGHT,	DX_Z_AXIS);							//THROTTLE R ENGINE AXIS
+		MapAxis(&Throttle, THR_FC,		0);									//THROTTLE NOT FRICTION AXIS
+
+		
+			//*******Throttle base buttons mapping********
+			
+			//FUEL
+			MapKey(&Throttle, EFLNORM, 0);									//FUEL ENG L NORM
+			MapKey(&Throttle, EFLOVER, 0);									//FUEL ENG L OVERRIDE
+				
+			MapKey(&Throttle, EFRNORM, 0);									//FUEL ENG R NORM
+			MapKey(&Throttle, EFROVER, 0);									//FUEL ENG R OVERRIDE
+				
+			//ENG OPER
+			MapKey(&Throttle, EOLIGN, 0);									//ENG OPER L IGN
+			MapKey(&Throttle, EOLNORM, 0);									//ENG OPER L NORM
+			MapKey(&Throttle, EOLMOTOR, 0);									//ENG OPER L MOTOR
+				
+			MapKey(&Throttle, EORIGN, 0);									//ENG OPER R IGN
+			MapKey(&Throttle, EORNORM, 0);									//ENG OPER R NORM
+			MapKey(&Throttle, EORMOTOR, 0);									//ENG OPER R MOTOR
+				
+			//APU
+			MapKey(&Throttle, APUON, 0);									//APU START
+			MapKey(&Throttle, APUOFF, 0);									//APU OFF
+				
+			//SILENCE
+			MapKey(&Throttle, LDGH, Outside_View);							//LANDING GEAR HORN WARNING SILENCER
+				
+			//AUTOPILOT LASTE
+			MapKey(&Throttle, APPAT, PULSE+Starmap);						//AUTOPILOT LASTE PATH MODE
+			MapKeyR(&Throttle, APPAT, PULSE+Starmap);
+			MapKey(&Throttle, APAH, 0);										//AUTOPILOT LASTE ALT/HDG MODE
+			MapKey(&Throttle, APALT, PULSE+Mobiglas);						//AUTOPILOT LASTE ALT MODE
+			MapKeyR(&Throttle, APALT, PULSE+Mobiglas);
+				
+			//AUTOPILOT ENGAGE/DISENGAGE
+			MapKey(&Throttle, APDIS, DX_Quantum_Drive);						//AUTOPILOT ENGAGE/DISENGAGE
+				
+			//RDR ALTM
+			MapKey(&Throttle, RDRNRM, PULSE+Landing_Lights);				//RDR ALTM NORM
+			MapKey(&Throttle, RDRDIS, PULSE+Landing_Lights);				//RDR ALTM DIS
+				
+			//EAC
+			MapKey(&Throttle, EACON, CHAIN(PULSE+Landing_Mode_AutoLand, 			
+			EXEC("SetSCurve(&Throttle, SCX,0,100,0,0,-20);SetSCurve(&Throttle, SCY,0,100,0,0,-20);")));//EAC ARM
+			MapKey(&Throttle, EACOFF, CHAIN(PULSE+Landing_Mode_AutoLand,						
+			EXEC("SetSCurve(&Throttle, SCX,0,35,0,0,-5);SetSCurve(&Throttle, SCY,0,35,0,0,-5);")));//EAC OFF
+				
+			//FLAPS
+			MapKey(&Throttle, FLAPU, EXEC("SetSCurve(&Joystick, JOYX,35,0,35,0,0);SetSCurve(&Joystick, JOYY,0,0,0,0,0);"));	//FLAPS UP
+			MapKey(&Throttle, FLAPM, EXEC("SetSCurve(&Joystick, JOYX,35,1,35,0,0);SetSCurve(&Joystick, JOYY,0,1,0,0,0);"));	//FLAPS MIDDLE
+			MapKey(&Throttle, FLAPD, EXEC("SetSCurve(&Joystick, JOYX,30,1,30,0,0);SetSCurve(&Joystick, JOYY,0,1,0,0,0);"));	//FLAPS DOWN
+				
+			//IDLE
+			MapKey(&Throttle, IDLELON, 0);									//IDLE LEFT ENGINE
+			MapKey(&Throttle, IDLERON, 0);									//IDLE RIGHT ENGINE
+				
+		
+		
+		
+				//==============THROTTLE LEVERS=============================
+						
+						
+						
+				//*******Left throttle lever buttons mapping********
+				
+					//RED BUTTON
+					MapKey(&Throttle, LTB, Print_Screen);							//LEFT THROTTLE LEVER RED BUTTON
+
+					//PINKY SWITCH
+					MapKey(&Throttle, PSF, 0);										//PINKY SWITCH FRONT POSITION
+					MapKey(&Throttle, PSM, 0);										//PINKY SWITCH MIDDLE POSITION
+					MapKey(&Throttle, PSB, 0);										//PINKY SWITCH BACK POSITION
+						
+				
+
+
+				//******Right throttle lever axis mapping**********
+				MapAxis(&Throttle,	SCX, DX_XROT_AXIS,AXIS_NORMAL,MAP_ABSOLUTE);//SLEW CONTROL X AXIS
+				MapAxis(&Throttle,	SCY, DX_YROT_AXIS,AXIS_REVERSED,MAP_ABSOLUTE);//SLEW CONTROL Y AXIS
+
+
+
+					//******Right throttle lever buttons mapping*******
+					
+					//SLEW CONTROL PUSH BUTTON
+					MapKey(&Throttle, SC, 0);											//SLEW CONTROL PUSH BUTTON
+					
+
+					//COOLIE HAT
+					MapKeyIO(&Throttle, CSU, DX_Shield_Raise_Top, DX_Strafe_Up);		//COOLIE HAT UP POSITION
+					MapKeyIO(&Throttle, CSD, DX_Shield_Raise_Bottom, DX_Strafe_Down);	//COOLIE HAT DOWN POSITION
+					MapKeyIO(&Throttle, CSL, Shield_Levels_Reset, 0);					//COOLIE HAT LEFT POSITION
+					MapKeyIO(&Throttle, CSR, Shield_Levels_Reset, 0);					//COOLIE HAT RIGHT POSITION
+
+
+					//MIC SWITCH
+					MapKeyIO(&Throttle, MSP, 0, 0);										//MIC SWITCH PUSHED POSITION
+					MapKeyIO(&Throttle, MSU, Track_Ir_Center, DX_Push_to_Talk);			//MIC SWITCH UP POSITION
+					MapKeyIO(&Throttle, MSD, Track_Ir_Pause, FOIP_In_Game);				//MIC SWITCH DOWN POSITION
+					MapKeyIO(&Throttle, MSL, 0, 0);										//MIC SWITCH LEFT POSITION
+					MapKeyIO(&Throttle, MSR, 0, 0);										//MIC SWITCH RIGHT POSITION
+				
+					//SPEED BRAKE
+					MapKey(&Throttle, SPDF, DX_Afterburner);							//SPEED BRAKE FORWARD POSITION
+					MapKey(&Throttle, SPDM, 0);											//SPEED BRAKE MIDDLE POSITION
+					MapKey(&Throttle, SPDB, DX_Spacebrake);								//SPEED BRAKE BACKWARD POSITION				
+								
+					//BOAT SWITCH
+					MapKey(&Throttle, BSF, 0);	//USED FOR UMD TOGGLE					//BOAT SWITCH FORWARD POSITION
+					MapKey(&Throttle, BSM, 0);	//USED FOR UMD TOGGLE					//BOAT SWITCH MIDDLE POSITION
+					MapKey(&Throttle, BSB, 0);	//USED FOR UMD TOGGLE					//BOAT SWITCH BACKWARD POSITION	
+
+					//CHINA HAT
+					MapKey(&Throttle, CHF, Cycle_CM_Ammo);								//CHINA HAT FORWARD POSITION
+					MapKey(&Throttle, CHM, 0);											//CHINA HAT MIDDLE POSITION
+					MapKey(&Throttle, CHB, Launch_CounterMeasure);						//CHINA HAT BACKWARD POSITION			
+				
+				
+				
+				//////////////////////////////////////////////////////////////////////////
+
+
+}
+
+//event handler
+int EventHandle(int type, alias o, int x)
+{
+    DefaultMapping(&o, x);
+	
+	//add event handling code here
+}

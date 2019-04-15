@@ -1,0 +1,279 @@
+include "target.tmh"
+include "Macros/M_StarCitizen.ttm"
+
+//program startup
+
+int weaponGroupFire = 2; 	// Pour le trigger du T16000 géré par le bouton gauche du manche
+							// Permet de choisir si les groupes d'armes 1 et 2 tirent ensemble ou juste un seul des 2
+							// 1 == DX_Fire_Weapon_Grp_1 ou DX_Fire_Weapon_Grp_2, 2 == DX_Fire_Weapon_Grp_1+DX_Fire_Weapon_Grp_2
+
+int weaponSoloFire = 1;		// Permet de choisir si c'est le groupe d'armes 1 ou 2 qui est selectionné.
+
+int main()
+{
+ 	
+	if(Init(&EventHandle)) return 1; // declare the event handler, return on error
+	
+	
+	//Pour pouvoir utiliser le bouton 5 de la souris sans qu'elle revienne au centre à chaque clic
+	//dans le fichier defines.tmh
+	//desactivation des lignes:
+	//819	define MOUSE_X_AXIS		9
+	//820	define MOUSE_Y_AXIS		10
+	//821	define MOUSE_Z_AXIS		11
+	
+	//remplacé par:
+	//819	define MOUSE_X_AXIS		9997
+	//820	define MOUSE_Y_AXIS		9998
+	//821	define MOUSE_Z_AXIS		9996
+	//c'est bizarre pour le define MOUSE_Z_AXIS avec son 9996 mais au moins ça marche
+
+//=================== WARTHOG ==================//
+
+
+	//===============LAYERS TOGGLE==============
+	SetShiftButton(&Joystick, S3);
+		
+	//============STICK SETTING===================
+			
+	
+		//********Stick axis mapping***************
+		MapAxis(&Joystick, JOYX, DX_X_AXIS);		//STICK ROLL AXIS
+		MapAxis(&Joystick, JOYY, DX_Y_AXIS);		//STICK PITCH AXIS
+		
+		SetSCurve(&Joystick, JOYX,15,0,15,0,0);
+		SetSCurve(&Joystick, JOYY,0,0,0,0,0);
+
+			//********Stick buttons mapping***********
+	
+			//TRIGGER 1
+			MapKey(&Joystick, TG1, DX_Afterburner);	
+			
+			//TRIGGER 2
+			MapKey(&Joystick, TG2, 0);
+				
+			//NWS
+			MapKey(&Joystick, S1, PULSE+Decoupled_Mode_Toggle);
+	
+			//RED BUTTON
+			MapKey(&Joystick, S2, DX_Spacebrake);		
+								
+			//IO MODE SWITCH
+			MapKey(&Joystick, S3, 0);				// USED FOR IO TOGGLE!!!
+	
+			//PALETTE
+			MapKey(&Joystick, S4, DX_Interaction_Mode);
+			
+			//HAT1 - TRIM HAT
+			MapKeyIO(&Joystick, H1U, PULSE+Video_Record, PULSE+CommLinks_App);		//TRIM HAT UP POSITION
+			MapKeyIO(&Joystick, H1D, PULSE+Print_Screen, PULSE+Cycle_Camera_View);	//TRIM HAT DOWN POSITION
+			MapKey(&Joystick, 	H1L, PULSE+Mobiglas);								//TRIM HAT LEFT POSITION
+			MapKey(&Joystick, 	H1R, PULSE+Map);									//TRIM HAT RIGHT POSITION
+			
+			//HAT2 - TMS
+			MapKeyIO(&Joystick, H2U, PULSE+Track_Ir_Center, DX_Discord_Push_to_Talk);	//TMS UP POSITION
+			MapKeyIO(&Joystick, H2D, PULSE+Track_Ir_Pause, FOIP_Push_To_Talk);			//TMS DOWN POSITION
+			MapKey(&Joystick, 	H2L, PULSE+ESP_Toggle);									//TMS LEFT POSITION
+			MapKey(&Joystick, 	H2R, PULSE+Match_Target_Velocity);						//TMS RIGHT POSITION			
+
+			//HAT3 - DMS
+			MapKeyIO(&Joystick, H3U, 0, PULSE+Reset_Power_Distribution);					//DMS UP POSITION
+			MapKeyIO(&Joystick, H3D, 0, PULSE+Power_Preset_Inc_Dec_3_Engine);				//DMS DOWN POSITION
+			MapKeyIO(&Joystick, H3L, Power_Decrease, PULSE+Power_Preset_Inc_Dec_1_Weapons);	//DMS LEFT POSITION
+			MapKeyIO(&Joystick, H3R, Power_Increase, PULSE+Power_Preset_Inc_Dec_2_Shield);	//DMS RIGHT POSITION
+	
+			//HAT4 - CMS
+			MapKeyIO(&Joystick, H4P, PULSE+Cycle_Sub_Target_Back, PULSE+Cycle_Sub_Target);			//CMS PUSHED POSITION
+			MapKeyIO(&Joystick, H4U, PULSE+Pin_Focused_Target, DX_Reticle_Focus);					//CMS UP POSITION
+			MapKeyIO(&Joystick,	H4D, PULSE+Cycle_Pinned_Targets, DX_Target_Nearest_Hostile);		//CMS DOWN POSITION
+			MapKeyIO(&Joystick,	H4L, PULSE+Cycle_Friendly_Targets_Back, DX_Cycle_Friendly_Targets);	//CMS LEFT POSITION
+			MapKeyIO(&Joystick,	H4R, PULSE+Cycle_Hostile_Targets_Back, DX_Cycle_Hostile_Targets);	//CMS RIGHT POSITION
+						
+		
+	//===============THROTTLE SETTING========================
+	
+		
+		//------------THROTTLE BASE---------------------
+		
+		
+		//*******Throttle base axis mapping***********	
+		MapAxis(&Throttle, THR_LEFT,	DX_SLIDER_AXIS, AXIS_REVERSED);				//THROTTLE L ENGINE AXIS
+		MapAxis(&Throttle, THR_RIGHT,	DX_THROTTLE_AXIS, AXIS_REVERSED);			//THROTTLE R ENGINE AXIS
+		MapAxis(&Throttle, THR_FC,		DX_Z_AXIS);									//THROTTLE NOT FRICTION AXIS
+		
+		// Le throttle est sur l'axe Throttle Forward
+		SetCustomCurve(&Throttle, THR_LEFT, LIST(0,0, 40,25, 100,100));
+
+		
+			//*******Throttle base buttons mapping********
+			
+			//FUEL
+			MapKey(&Throttle, EFLNORM, 0);									//FUEL ENG L NORM
+			MapKey(&Throttle, EFLOVER, 0);									//FUEL ENG L OVERRIDE
+				
+			MapKey(&Throttle, EFRNORM, 0);									//FUEL ENG R NORM
+			MapKey(&Throttle, EFROVER, 0);									//FUEL ENG R OVERRIDE
+				
+			//ENG OPER
+			MapKey(&Throttle, EOLIGN, 0);									//ENG OPER L IGN
+			MapKey(&Throttle, EOLNORM, 0);									//ENG OPER L NORM
+			MapKey(&Throttle, EOLMOTOR, 0);									//ENG OPER L MOTOR
+				
+			MapKey(&Throttle, EORIGN, 0);									//ENG OPER R IGN
+			MapKey(&Throttle, EORNORM, 0);									//ENG OPER R NORM
+			MapKey(&Throttle, EORMOTOR, 0);									//ENG OPER R MOTOR
+				
+			//APU
+			MapKey(&Throttle, APUON, 0);									//APU START
+			MapKey(&Throttle, APUOFF, 0);									//APU OFF
+				
+			//SILENCE
+			MapKeyIO(&Throttle, LDGH, 	TEMPO(0, DX_Eject, 1000),
+										TEMPO(0, PULSE+Exit_Seat, 500));	//LANDING GEAR HORN WARNING SILENCER
+				
+			//AUTOPILOT LASTE
+			MapKeyIO(&Throttle, APPAT, 	PULSE+Power_Toggle, 
+										PULSE+Power_Preset_1_Toggle_Weapons);	//AUTOPILOT LASTE PATH MODE
+			MapKey(&Throttle, 	APAH, 	0);										//AUTOPILOT LASTE ALT/HDG MODE
+			MapKeyIO(&Throttle, APALT, 	PULSE+Power_Preset_3_Toggle_Engine, 
+										PULSE+Power_Preset_2_Toggle_Shield);	//AUTOPILOT LASTE ALT MODE
+				
+			//AUTOPILOT ENGAGE/DISENGAGE
+			MapKey(&Throttle, APDIS, TEMPO(	PULSE+Quantum_Drive_Mode_Toggle, 
+											DX_Quantum_Drive, 200));			//AUTOPILOT ENGAGE/DISENGAGE
+				
+			
+			//RDR ALTM
+			MapKey(&Throttle, RDRNRM, PULSE+Headlights_Toggle);				//RDR ALTM NORM
+			MapKey(&Throttle, RDRDIS, PULSE+Headlights_Toggle);				//RDR ALTM DIS
+				
+			//EAC
+			MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle);			//EAC ARM
+			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle);			//EAC OFF
+				
+			//FLAPS
+			
+			MapKey(&Throttle, FLAPU, 0);									//FLAPS UP
+			MapKey(&Throttle, FLAPM, 0);									//FLAPS MIDDLE
+			MapKey(&Throttle, FLAPD, 0);									//FLAPS DOWN
+			
+			//IDLE
+			MapKey(&Throttle, 	IDLELON, 0);								//IDLE LEFT ENGINE
+			MapKey(&Throttle, 	IDLERON, EXEC("SetSCurve(&T16000, JOYX,0,1,0,1,-2);SetSCurve(&T16000, JOYY,0,1,0,0,0);"));	//IDLE RIGHT ENGINE
+			MapKeyR(&Throttle, 	IDLERON, EXEC("SetSCurve(&T16000, JOYX,0,1,0,0,0);SetSCurve(&T16000, JOYY,0,1,0,0,0);"));	
+		
+		
+		
+				//==============THROTTLE LEVERS=============================
+						
+						
+						
+				//*******Left throttle lever buttons mapping********
+				
+					//RED BUTTON
+					MapKey(&Throttle, LTB, PULSE+Cruise_Control_Toggle);	//LEFT THROTTLE LEVER RED BUTTON
+
+					//PINKY SWITCH
+					MapKey(&Throttle, PSF, 0);								//PINKY SWITCH FRONT POSITION
+					MapKey(&Throttle, PSM, 0);								//PINKY SWITCH MIDDLE POSITION
+					MapKey(&Throttle, PSB, 0);								//PINKY SWITCH BACK POSITION
+	
+				
+
+
+				//******Right throttle lever axis mapping**********
+
+				MapAxis(&Throttle,	SCX, 0);				//SLEW CONTROL X AXIS
+				MapAxis(&Throttle,	SCY, 0);				//SLEW CONTROL Y AXIS
+				
+
+					//******Right throttle lever buttons mapping*******
+					
+					//SLEW CONTROL PUSH BUTTON
+					MapKey(&Throttle, SC, PULSE+Shield_Levels_Reset);					//SLEW CONTROL PUSH BUTTON					
+
+					//COOLIE HAT
+					MapKey(&Throttle, CSU, DX_Strafe_Forward_Backward_Invert);			//COOLIE HAT UP POSITION
+					MapKey(&Throttle, CSD, 0);											//COOLIE HAT DOWN POSITION
+					MapKey(&Throttle, CSL, DX_Shield_Raise_Left);						//COOLIE HAT LEFT POSITION
+					MapKey(&Throttle, CSR, DX_Shield_Raise_Right);						//COOLIE HAT RIGHT POSITION
+
+					//MIC SWITCH
+					MapKeyIO(&Throttle, MSP, PULSE+Shield_Levels_Reset, 0);				//MIC SWITCH PUSHED POSITION
+					MapKeyIO(&Throttle, MSU, 0, DX_Shield_Raise_Top);					//MIC SWITCH UP POSITION
+					MapKeyIO(&Throttle, MSD, 0, DX_Shield_Raise_Bottom);				//MIC SWITCH DOWN POSITION
+					MapKeyIO(&Throttle, MSL, 0, DX_Shield_Raise_Back);					//MIC SWITCH LEFT POSITION
+					MapKeyIO(&Throttle, MSR, 0, DX_Shield_Raise_Front);					//MIC SWITCH RIGHT POSITION
+
+					//SPEED BRAKE
+					MapKey(&Throttle, SPDF, PULSE+Switch_Mining_Laser_Toggle);			//SPEED BRAKE FORWARD POSITION
+					MapKey(&Throttle, SPDM, 0);											//SPEED BRAKE MIDDLE POSITION
+					MapKey(&Throttle, SPDB, DX_Mining_Laser_and_Scanning_Radar_Ping);	//SPEED BRAKE BACKWARD POSITION				
+								
+					//BOAT SWITCH
+					MapKey(&Throttle, 	BSF, PULSE+Mining_Mode_Toggle);					//BOAT SWITCH FORWARD POSITION
+					MapKeyR(&Throttle, 	BSF, PULSE+Mining_Mode_Toggle);					
+					MapKey(&Throttle, 	BSM, 0);										//BOAT SWITCH MIDDLE POSITION
+					MapKey(&Throttle, 	BSB, PULSE+Scanning_Mode_Toggle);				//BOAT SWITCH BACKWARD POSITION
+					MapKeyR(&Throttle, 	BSB, PULSE+Scanning_Mode_Toggle);	
+
+					//CHINA HAT
+					MapKey(&Throttle, CHF, Scanning_Increase_Radar_Angle);				//CHINA HAT FORWARD POSITION
+					MapKey(&Throttle, CHM, 0);											//CHINA HAT MIDDLE POSITION
+					MapKey(&Throttle, CHB, Scanning_Decrease_Radar_Angle);				//CHINA HAT BACKWARD POSITION			
+				
+				
+				
+				//////////////////////////////////////////////////////////////////////////
+
+
+
+//================== T16000 ====================//
+
+			MapAxis(&T16000, JOYX, DX_XROT_AXIS);
+			MapAxis(&T16000, JOYY, DX_YROT_AXIS, AXIS_REVERSED);
+			MapAxis(&T16000, RUDDER, 0); 
+			MapAxis(&T16000, THR, 0);
+			
+			SetSCurve(&T16000, JOYX,0,1,0,0,0);
+			SetSCurve(&T16000, JOYY,0,1,0,0,0);			
+		
+									
+			MapKey(&T16000, H1U, AXIS(DX_THROTTLE_AXIS, 500, 20));							// HAT UP	
+			MapKey(&T16000, H1D, AXIS(DX_THROTTLE_AXIS, -500, 20));							// HAT DOWN	
+			MapKeyIO(&T16000, H1L, PULSE+Reticle_Mode_Toggle, PULSE+Cycle_Gimbal_Modes);	// HAT LEFT
+			MapKey(&T16000, H1R, PULSE+Cycle_CM_Ammo);										// HAT RIGHT 
+			
+			
+			MapKeyIO(&T16000, TG1,	SEQ(EXEC("weaponSoloFire = 1;"), EXEC("weaponSoloFire = 2;")  ),
+									EXEC("	if(weaponGroupFire==1 & weaponSoloFire==1) ActKey(KEYON+DX_Fire_Weapon_Grp_1); if(weaponGroupFire==1 & weaponSoloFire==2) ActKey(KEYON+DX_Fire_Weapon_Grp_2); if(weaponGroupFire==2) CHAIN(  ActKey(KEYON+DX_Fire_Weapon_Grp_1) , ActKey(KEYON+DX_Fire_Weapon_Grp_2) );  "));	// TRIGGER
+			MapKeyRIO(&T16000,TG1, 	SEQ(EXEC("weaponSoloFire = 1;"), EXEC("weaponSoloFire = 2;")  ),
+									EXEC("	if(weaponGroupFire==1 & weaponSoloFire==1) ActKey(DX_Fire_Weapon_Grp_1); if(weaponGroupFire==1 & weaponSoloFire==2) ActKey(DX_Fire_Weapon_Grp_2); if(weaponGroupFire==2) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) );    ") );	// TRIGGER
+			MapKeyIO(&T16000, TS2,	PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile); 	// STICK BACK BUTTON
+			MapKey(&T16000, TS3, SEQ( EXEC("weaponGroupFire=2;"), EXEC("weaponGroupFire=1;") )); 	// STICK LEFT BUTTON
+			MapKey(&T16000,	TS4, Launch_CounterMeasure);							// STICK RIGHT BUTTON
+
+			MapKey(&T16000, B5, 0);
+			MapKey(&T16000, B6, 0);
+			MapKey(&T16000, B7, 0);
+			MapKey(&T16000, B8, 0);
+			MapKey(&T16000, B9, 0);
+			MapKey(&T16000, B10, 0);
+			MapKey(&T16000, B11, 0);
+			MapKey(&T16000, B12, 0);
+			MapKey(&T16000, B13, 0);
+			MapKey(&T16000, B14, 0);
+			MapKey(&T16000, B15, 0);
+			MapKey(&T16000, B16, 0); 
+			
+
+
+}
+
+//event handler
+int EventHandle(int type, alias o, int x)
+{
+    DefaultMapping(&o, x);
+	
+	//add event handling code here
+}

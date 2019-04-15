@@ -1,0 +1,159 @@
+// ------------------------------------------  T.A.R.G.E.T Macros File ------------------------------------------
+
+////// FLIGHT - COCKPIT //////
+define DX_Eject								DX28				// DX28 ADDED 
+define Exit_Seat							USB[0x1C]			// Y DEFAULT
+define Self_Destruct						USB[0x2A]			// Backspace DEFAULT
+
+////// FLIGHT - VIEW /////
+define Cycle_Camera_View					F4					// F4 DEFAULT
+
+////// FLIGHT - MOVEMENT /////
+define Match_Target_Velocity				USB[0x33]			// ; COMMA ADDED: GIVES A M ON FRENCH KEYBOARD
+define DX_Spacebrake						DX13				// DX13
+define Decoupled_Mode_Toggle				USB[0x19]			// V DEFAULT
+define DX_Strafe_Forward_Backward_Invert	DX12				// DX12
+define GSafe_Toggle							L_CTL+USB[0x19]		// L_CTL+V ADDED
+define ESP_Toggle							USB[0x52]			// UP ARROW ADDED
+define Cruise_Control_Toggle				USB[0x06]			// C DEFAULT
+define DX_Afterburner						DX14				// DX14
+define Landing_System_Toggle				USB[0x11]			// N DEFAULT
+define Quantum_Drive_Mode_Toggle			USB[0x05]			// B DEFAULT
+define DX_Quantum_Drive						DX15				// DX15
+
+////// FLIGHT-TARGETING /////
+define DX_Reticle_Focus						DX16				// DX16
+
+define Cycle_All_Targets					USB[0x0]			// NOT NEEDED
+define Cycle_All_Targets_Back				USB[0x0]			// NOT NEEDED
+
+define DX_Cycle_Friendly_Targets			DX17				// DX17
+define Cycle_Friendly_Targets_Back			USB[0x0]			// ADDED TO REMAP
+
+define Pin_Focused_Target					USB[0x1E]			// 1 DEFAULT
+define Cycle_Pinned_Targets					USB[0x21]			// 4 DEFAULT
+define Cycle_Pinned_Targets_Back			USB[0x22]			// 5 ADDED
+
+define DX_Cycle_Hostile_Targets				DX18				// DX18
+define Cycle_Hostile_Targets_Back			USB[0x0F]			// L ADDED
+define DX_Target_Nearest_Hostile			DX19				// DX19
+
+define Cycle_Sub_Target						USB[0x1F]			// 2 DEFAULT
+define Cycle_Sub_Target_Back				L_SHIFT+USB[0x13]	// L_SHIFT+P ADDED
+define Reset_Sub_Target						USB[0x0]			// 
+
+define Reticle_Mode_Toggle					USB[0x0D]			// J ADDED
+define Target_Focus							USB[0x0]			// USELESS, TRACKIR is here for that
+
+define Mining_Mode_Toggle					USB[0x10]			// M ON ENGLISH KEYBOARD. "," ON FRENCH KEYBOARD DEFAULT
+define Scanning_Mode_Toggle					TAB					// TAB DEFAULT	
+define DX_Mining_Laser_and_Scanning_Radar_Ping	DX25			// DX25
+define Scanning_Increase_Radar_Angle		HOME				// HOME ADDED
+define Scanning_Decrease_Radar_Angle		END					// END ADDED
+
+////// FLIGHT-MINING /////
+define Switch_Mining_Laser_Toggle			L_SHIFT+USB[0x0D]	// L_SHIFT+J
+
+////// FLIGHT-TURRETS /////
+
+////// FLIGHT-WEAPONS /////
+define DX_Fire_Weapon_Grp_1					DX1					// DX1 DEFAULT
+define DX_Fire_Weapon_Grp_2					DX2					// DX2 DEFAULT
+define Cycle_Weapon_Ammo					L_SHIFT+USB[0x15]	// L_SHIFT+R ADDED
+define Turret_Gyro_Stabilisation_Toggle		USB[0x0]			//
+define Cycle_Gimbal_Modes					USB[0x15]			// R DEFAULT
+define DX_Launch_Missile					DX3					// DX3
+
+////// FLIGHT-DEFENSIVE /////
+define Launch_CounterMeasure				USB[0x0A]			// G DEFAULT
+define Cycle_CM_Ammo						USB[0x0B]			// H DEFAULT
+define Cycle_CM_Ammo_Back					USB[0x0]			//
+
+define DX_Shield_Raise_Front				DX4					// DX4
+define DX_Shield_Raise_Back					DX5					// DX5
+define DX_Shield_Raise_Left					DX6					// DX6
+define DX_Shield_Raise_Right				DX7					// DX7
+define DX_Shield_Raise_Top					DX8					// DX8
+define DX_Shield_Raise_Bottom				DX9					// DX9
+define Shield_Levels_Reset					USB[0x16]			// S ADDED
+
+////// FLIGHT-POWER /////
+define Power_Preset_Inc_Dec_1_Weapons		F7					// F7 DEFAULT
+define Power_Preset_Inc_Dec_2_Shield		F6					// F6 DEFAULT
+define Power_Preset_Inc_Dec_3_Engine		F5					// F5 DEFAULT
+define Reset_Power_Distribution				F8					// F8 DEFAULT
+
+define Power_Increase						F10					// F10 DEFAULT
+define Power_Decrease						F9					// F9 DEFAULT
+
+define Power_Preset_1_Toggle_Weapons		USB[0x13]			// P DEFAULT
+define Power_Preset_2_Toggle_Shield			USB[0x12]			// O DEFAULT
+define Power_Preset_3_Toggle_Engine			USB[0x0C]			// I DEFAULT
+define Power_Toggle							USB[0x18]			// U DEFAULT
+
+////// FLIGHT-RADAR /////
+
+////// FLIGHT-HUD /////
+define Mobiglas								F1					// F1 DEFAULT
+define Map									F2					// F2 DEFAULT
+
+////// LIGHTS /////
+define Headlights_Toggle					USB[0x17]			// T DEFAULT
+
+////// ON FOOT-ALL /////
+
+////// EVA-ALL /////
+
+////// GROUND VEHICLE-GENERAL /////
+
+////// GROUND VEHICLE-MOVEMENT /////
+
+////// GROUND VEHICLE-GUNNER /////
+
+////// ELECTRONIC ACCESS-SPECTATOR /////
+
+////// SOCIAL-GENERAL /////
+define FOIP_Push_To_Talk					MOUSE_BTN5			// MOUSE_BTN5 INGAME FOIP
+define CommLinks_App						F11					// F11 DEFAULT
+
+////// SOCIAL-INVITES /////
+
+////// SOCIAL-EMOTES /////
+
+////// INTERACTIONS-ALL /////
+define DX_Interaction_Mode					DX32				// DX32
+define FOIP_Recalibrate						USB[0x49]			// INS ADDED
+define FOIP_Head_Tracking_Toggle			R_CTL+USB[0x49]		// R_CTL+INS ADDED
+
+///// OUT OF GAME INPUTS ////
+define Track_Ir_Center						L_SHIFT+USB[0x49]	// L_SHIFT+INS
+define Track_Ir_Pause						R_CTL+USB[0x49]		// R_CTL+INS
+
+define DX_Discord_Push_to_Talk				MOUSE_BTN4			// MOUSE_BTN4 DISCORD 
+
+define Print_Screen							USB[0x46]			// PRNT SCREEN DEFAULT
+define Video_Record							L_ALT+F9
+
+/////// DX AXIS INVENTORY ///////
+// DX_X_AXIS			ROLL
+// DX_Y_AXIS			PITCH
+// DX_Z_AXIS			MINING LASER
+// DX_XROT_AXIS			STRAFE UP/DOWN
+// DX_YROT_AXIS			STRAFE LEFT/RIGHT
+// DX_ZROT_AXIS	
+// DX_SLIDER_AXIS		SPEED LIMITER
+// DX_THROTTLE_AXIS		THROTTLE FORWARD
+
+/////// AVAILABLE DX INPUTS ///////
+
+// DX11
+// DX19
+// DX20
+// DX21
+// DX22
+// DX23
+// DX24
+// DX26
+// DX29
+// DX30
+// DX31

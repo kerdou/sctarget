@@ -1,0 +1,26 @@
+
+define Comms_Panel						USB[0x06] // C
+define Comm_Video_On_Off				USB[0x19] // V
+
+define Display_Ship_Damage				USB[0x07] // D
+define Eject							CTL+USB[0x08] // CTL+E
+
+define Engage_Autopilot					USB[0x04] // A
+define Select_Nav_Press_Once			USB[0x11] // N
+define View_Nav_Screen_Press_Twice		USB[0x11] // N
+define Get_Back_To_Cockpit_View			ESC
+
+define Increase_Speed					USB[0x57] // +
+define Decrease_Speed					USB[0x56] // -
+define Afterburners						TAB
+
+define Roll_Left						INS
+define Roll_Right						DEL
+
+define DX_Fire_Selected_Guns			DX1
+define DX_Fire_Missiles_Mines			DX2
+define Select_Gun_Type					USB[0x0A] // G
+define Select_Missile_Type				USB[0x1A] // W
+
+define Lock_Targeting_Computer			USB[0x0F] // L
+define Select_Trgt_Cptr_Active_Target	USB[0x17] // T

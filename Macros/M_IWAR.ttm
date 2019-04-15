@@ -1,0 +1,93 @@
+
+//***** WORKSTATIONS ***//
+define CMD_Workstation									F1
+define NAV_Workstation									F2
+define WEP_Workstation									F3
+define ENG_Workstation									F4
+
+define Fullscreen_Mode									TAB
+
+//*******************************//
+//*******************************//
+//*******************************//
+
+//***** COMMAND MAIN FUNCTIONS *****//
+define Access_Remote_control							L_SHIFT+USB[0x15]	// Shift-R
+
+//*******************************//
+//*******************************//
+//*******************************//
+
+//***** NAV WORKSTATION *****//
+define Shift											L_SHIFT
+
+define Forward_Speed_Override							USB[0x04]	// A
+define Reverse_Speed_Override							USB[0x1D]	// Z
+define Toggle_LDS										USB[0x0F]	// L
+define Undock											USB[0x18]	// U
+define Toggle_Flight_Mode_Assisted						USB[0x38]	// /
+define Flight_Mode_Free_Advanced						USB[0x11]	// N
+define Swap_Roll_Yaw_Axis								USB[0x1C]	// Y
+define Separate_the_Command_Section						USB[0x06]	// C
+
+define Set_Speed_Increase								USB[0x57]	// +
+define Set_Speed_Decrease								USB[0x56]	// -
+
+define DX_Strafe_Up										DXHATUP
+define DX_Strafe_Down									DXHATDOWN
+define DX_Strafe_Left									DXHATLEFT
+define DX_Strafe_Right									DXHATRIGHT
+
+
+//***** COMBAT FUNCTIONS (BASIC) *****//
+define DX_Fire_weapon									DX1
+define DX_Select_cannon_weapon							DX3
+define DX_Select_missile_weapon							DX4
+
+
+//***** DESIGNATING TARGET *****//
+define Designate_current_contact_as_target				USB[0x38]	// /
+define Designate_last_enemy_to_attack_as_target 		USB[0x14]	// Q
+define Designate_nearest_enemy_ship_as_target 			USB[0x15] 	// R
+define Designate_nearest_weapon_as_target 				USB[0x1A] 	// W
+define Cycle_through_Enemies_and_designate_as_target 	USB[0x08]	// E
+
+define Designate_central_contact						DX2
+define Next_Contact										USB[0x37]	// >
+define Previous_Contact									USB[0x36]	// <
+define Change_Contact_Type								USB[0x10]	// M
+
+
+//***** AUTOPILOT FUNCTIONS *****//
+define Auto_Stop 										F5	// F5
+define Auto_Approach 									F6	// F6
+define Auto_Formate 									F7	// F7
+define Auto_Dock 										F8	// F8
+define Auto_Match_Velocity 								F9	// F9
+define Cancel_Autopilot 								ESC	// ESC
+
+//*******************************//
+//*******************************//
+//*******************************//
+
+//***** WEP WORKSTATION *****//
+//***** COMBAT FUNCTIONS (ADVANCED) *****//
+define Fire_LDSI_missile 								USB[0x0C]	// I
+define Fire_Flare 										DEL			// DEL
+define Select_Ripple_Fire_Mode_Normal_Mode 				USB[0x09]	// F
+define Instant_Shield 									KP0			// KEYPAD 0 (INS)
+
+
+//***** COMMS *****//
+define Com_Arm_off 										L_SHIFT+USB[0x19]	// SHIFT-V
+
+
+//*******************************//
+//*******************************//
+//*******************************//
+
+//***** ENG WORKSTATION *****//
+define T_R_I_Shield 									L_CTL+UARROW	// ARROW UP
+define T_R_I_Thrust 									L_CTL+LARROW	// ARROW LEFT
+define T_R_I_Weapon 									L_CTL+RARROW	// ARROW RIGHT
+define T_R_I_Centre 									L_CTL+DARROW	// ARROW DOWN

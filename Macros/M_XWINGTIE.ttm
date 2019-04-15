@@ -1,0 +1,48 @@
+// ------------------------------------------  T.A.R.G.E.T Macros File ------------------------------------------
+
+////////THROTTLE MANAGEMENT/////////////
+
+define Increase_Throttle		USB[0x2E]			// +
+define Decrease_Throttle		USB[0x2D]			// -
+
+define Throttle_Idle			USB[0x31]			// \
+define Throttle_OneThird		USB[0x2F]			// [
+define Throttle_TwoThird		USB[0x30]			// ]
+define Throttle_Full			USB[0x2A]			// BACKSPACE
+
+define Hyperdrive				USB[0x0B]			// H
+
+//////////COMBAT SYSTEM//////////////
+
+define DX_Weapon_Fire			DX1
+define DX_Second_Button			DX2
+define Weapon_Selection			USB[0x1A]			// W
+define Weapon_FireMode			USB[0x1B]			// X
+
+define Laser_Recharge			USB[0x42]			// F9
+define Laser_EnergyTransfer		L_SHIFT+USB[0x42]	// L_SHIFT+F9
+
+//////////SHIELDS SYSTEM/////////////
+
+define Shields_Recharge			USB[0x43]			// F10
+define Shields_EnergyTransfer	L_SHIFT+USB[0x43]	// L_SHIFT+F10
+define Shields_Configuration	USB[0x16]			// S
+
+//////////TARGETING SYSTEM///////////
+
+define Target_InSight 			USB[0x18]			// U
+define Target_DisplayMode		USB[0x0C]			// I
+define Target_Nearest			USB[0x15]			// R
+define Target_Next				USB[0x17]			// T
+define Target_Previous			USB[0x1C]			// Y
+
+///////////VIEWS///////////
+
+define View_Forward				USB[0x60]			// NumPad 8
+define View_Right_Forward		USB[0x61]			// NumPad 9
+define View_Right_Wing			USB[0x5E]			// NumPad 6
+define View_Right_Shoulder		USB[0x5B]			// NumPad 3
+define View_Rear_View_Mirror	USB[0x5A]			// NumPad 2
+define View_Left_Shoulder		USB[0x59]			// NumPad 1
+define View_Left_Wing			USB[0x5C]			// NumPad 4
+define View_Left_Forward		USB[0x5F]			// NumPad 7
