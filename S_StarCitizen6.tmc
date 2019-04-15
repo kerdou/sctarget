@@ -190,7 +190,7 @@ int main()
 					//******Right throttle lever buttons mapping*******
 					
 					//SLEW CONTROL PUSH BUTTON
-					MapKey(&Throttle, SC, PULSE+Shield_Levels_Reset);					//SLEW CONTROL PUSH BUTTON					
+					MapKeyIO(&Throttle, SC, PULSE+Shield_Levels_Reset, 0);				//SLEW CONTROL PUSH BUTTON					
 
 					//COOLIE HAT
 					MapKey(&Throttle, CSU, DX_Strafe_Forward_Backward_Invert);			//COOLIE HAT UP POSITION
