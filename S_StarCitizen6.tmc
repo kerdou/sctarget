@@ -183,8 +183,8 @@ int main()
 
 				//******Right throttle lever axis mapping**********
 
-				MapAxis(&Throttle,	SCX, 0);				//SLEW CONTROL X AXIS
-				MapAxis(&Throttle,	SCY, 0);				//SLEW CONTROL Y AXIS
+				KeyAxis(&Throttle,	SCX, 'o', AXMAP2(3, DX_Shield_Raise_Left, 0, DX_Shield_Raise_Right) );				//SLEW CONTROL X AXIS
+				MapAxis(&Throttle,	SCY, 0);											//SLEW CONTROL Y AXIS
 				
 
 					//******Right throttle lever buttons mapping*******
@@ -199,11 +199,11 @@ int main()
 					MapKey(&Throttle, CSR, DX_Shield_Raise_Right);						//COOLIE HAT RIGHT POSITION
 
 					//MIC SWITCH
-					MapKeyIO(&Throttle, MSP, PULSE+Shield_Levels_Reset, 0);				//MIC SWITCH PUSHED POSITION
-					MapKeyIO(&Throttle, MSU, 0, DX_Shield_Raise_Top);					//MIC SWITCH UP POSITION
-					MapKeyIO(&Throttle, MSD, 0, DX_Shield_Raise_Bottom);				//MIC SWITCH DOWN POSITION
-					MapKeyIO(&Throttle, MSL, 0, DX_Shield_Raise_Back);					//MIC SWITCH LEFT POSITION
-					MapKeyIO(&Throttle, MSR, 0, DX_Shield_Raise_Front);					//MIC SWITCH RIGHT POSITION
+					MapKey(&Throttle, MSP, 0);											//MIC SWITCH PUSHED POSITION
+					MapKey(&Throttle, MSU, DX_Shield_Raise_Top);						//MIC SWITCH UP POSITION
+					MapKey(&Throttle, MSD, DX_Shield_Raise_Bottom);						//MIC SWITCH DOWN POSITION
+					MapKey(&Throttle, MSL, DX_Shield_Raise_Back);						//MIC SWITCH LEFT POSITION
+					MapKey(&Throttle, MSR, DX_Shield_Raise_Front);						//MIC SWITCH RIGHT POSITION
 
 					//SPEED BRAKE
 					MapKey(&Throttle, SPDF, PULSE+Switch_Mining_Laser_Toggle);			//SPEED BRAKE FORWARD POSITION
