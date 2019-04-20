@@ -9,6 +9,8 @@ int weaponGroupFire = 2; 	// Pour le trigger du T16000 géré par le bouton gauche
 
 int weaponSoloFire = 1;		// Permet de choisir si c'est le groupe d'armes 1 ou 2 qui est selectionné.
 
+int gearPosition;
+
 int main()
 {
  	
@@ -148,8 +150,10 @@ int main()
 			MapKey(&Throttle, RDRDIS, PULSE+Headlights_Toggle);				//RDR ALTM DIS
 				
 			//EAC
-			MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle);			//EAC ARM
-			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle);			//EAC OFF
+			MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle);		//EAC ARM
+			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle);	//EAC OFF
+			
+			//MapKey(&Throttle, EACON,CHAIN(EXEC("if(gearPosition) ActKey(PULSE+KEYON+'a'); else ActKey(PULSE+KEYON+L_SHIFT+'a');"),EXEC("gearPosition = !gearPosition;")));
 				
 			//FLAPS
 			
@@ -183,14 +187,14 @@ int main()
 
 				//******Right throttle lever axis mapping**********
 
-				MapAxis(&Throttle,	SCX, 0);				//SLEW CONTROL X AXIS
-				MapAxis(&Throttle,	SCY, 0);				//SLEW CONTROL Y AXIS
+				KeyAxis(&Throttle,	SCX, 'o', AXMAP2(3, DX_Shield_Raise_Left, 0, DX_Shield_Raise_Right) );	//SLEW CONTROL X AXIS
+				MapAxis(&Throttle,	SCY, 0);											//SLEW CONTROL Y AXIS
 				
 
 					//******Right throttle lever buttons mapping*******
 					
 					//SLEW CONTROL PUSH BUTTON
-					MapKey(&Throttle, SC, PULSE+Shield_Levels_Reset);					//SLEW CONTROL PUSH BUTTON					
+					MapKeyIO(&Throttle, SC, PULSE+Shield_Levels_Reset, 0);				//SLEW CONTROL PUSH BUTTON					
 
 					//COOLIE HAT
 					MapKey(&Throttle, CSU, DX_Strafe_Forward_Backward_Invert);			//COOLIE HAT UP POSITION
@@ -199,11 +203,11 @@ int main()
 					MapKey(&Throttle, CSR, DX_Shield_Raise_Right);						//COOLIE HAT RIGHT POSITION
 
 					//MIC SWITCH
-					MapKeyIO(&Throttle, MSP, PULSE+Shield_Levels_Reset, 0);				//MIC SWITCH PUSHED POSITION
-					MapKeyIO(&Throttle, MSU, 0, DX_Shield_Raise_Top);					//MIC SWITCH UP POSITION
-					MapKeyIO(&Throttle, MSD, 0, DX_Shield_Raise_Bottom);				//MIC SWITCH DOWN POSITION
-					MapKeyIO(&Throttle, MSL, 0, DX_Shield_Raise_Back);					//MIC SWITCH LEFT POSITION
-					MapKeyIO(&Throttle, MSR, 0, DX_Shield_Raise_Front);					//MIC SWITCH RIGHT POSITION
+					MapKey(&Throttle, MSP, 0);											//MIC SWITCH PUSHED POSITION
+					MapKey(&Throttle, MSU, DX_Shield_Raise_Top);						//MIC SWITCH UP POSITION
+					MapKey(&Throttle, MSD, DX_Shield_Raise_Bottom);						//MIC SWITCH DOWN POSITION
+					MapKey(&Throttle, MSL, DX_Shield_Raise_Back);						//MIC SWITCH LEFT POSITION
+					MapKey(&Throttle, MSR, DX_Shield_Raise_Front);						//MIC SWITCH RIGHT POSITION
 
 					//SPEED BRAKE
 					MapKey(&Throttle, SPDF, PULSE+Switch_Mining_Laser_Toggle);			//SPEED BRAKE FORWARD POSITION
@@ -251,7 +255,7 @@ int main()
 									EXEC("	if(weaponGroupFire==1 & weaponSoloFire==1) ActKey(DX_Fire_Weapon_Grp_1); if(weaponGroupFire==1 & weaponSoloFire==2) ActKey(DX_Fire_Weapon_Grp_2); if(weaponGroupFire==2) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) );    ") );	// TRIGGER
 			MapKeyIO(&T16000, TS2,	PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile); 	// STICK BACK BUTTON
 			MapKey(&T16000, TS3, SEQ( EXEC("weaponGroupFire=2;"), EXEC("weaponGroupFire=1;") )); 	// STICK LEFT BUTTON
-			MapKey(&T16000,	TS4, Launch_CounterMeasure);							// STICK RIGHT BUTTON
+			MapKey(&T16000,	TS4, PULSE+Launch_CounterMeasure);							// STICK RIGHT BUTTON
 
 			MapKey(&T16000, B5, 0);
 			MapKey(&T16000, B6, 0);
