@@ -3,13 +3,13 @@ include "Macros/M_StarCitizen.ttm"
 
 //program startup
 
-int weaponGroupFire = 2; 	// Pour le trigger du T16000 géré par le bouton gauche du manche
+int allWeaponsMode = 1; 	// Pour le trigger du T16000 géré par le bouton gauche du manche
 							// Permet de choisir si les groupes d'armes 1 et 2 tirent ensemble ou juste un seul des 2
-							// 1 == DX_Fire_Weapon_Grp_1 ou DX_Fire_Weapon_Grp_2, 2 == DX_Fire_Weapon_Grp_1+DX_Fire_Weapon_Grp_2
+							// 0 == DX_Fire_Weapon_Grp_1 ou DX_Fire_Weapon_Grp_2, 2 == DX_Fire_Weapon_Grp_1+DX_Fire_Weapon_Grp_2
 
-int weaponSoloFire = 1;		// Permet de choisir si c'est le groupe d'armes 1 ou 2 qui est selectionné.
+int weaponSelectedGroup = 1;	// Permet de choisir si c'est le groupe d'armes 1 ou 2 qui est selectionné.
 
-int gearPosition;
+int gearExtendedPosition = 1;	// 1 quand le train est sorti 
 
 int main()
 {
@@ -150,13 +150,13 @@ int main()
 			MapKey(&Throttle, RDRDIS, PULSE+Headlights_Toggle);				//RDR ALTM DIS
 				
 			//EAC
-			MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle);		//EAC ARM
-			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle);	//EAC OFF
+			//MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle);			//EAC ARM
+			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle);			//EAC OFF
 			
-			//MapKey(&Throttle, EACON,CHAIN(EXEC("if(gearPosition) ActKey(PULSE+KEYON+'a'); else ActKey(PULSE+KEYON+L_SHIFT+'a');"),EXEC("gearPosition = !gearPosition;")));
+			MapKey(&Throttle, EACON, EXEC("gearExtendedPosition=0; ActKey(PULSE+KEYON+Landing_System_Toggle);") ); //EAC ARM
+			MapKey(&Throttle, EACOFF, EXEC("gearExtendedPosition=1; ActKey(PULSE+KEYON+Landing_System_Toggle);") ); //EAC OFF
 				
-			//FLAPS
-			
+			//FLAPS			
 			MapKey(&Throttle, FLAPU, 0);									//FLAPS UP
 			MapKey(&Throttle, FLAPM, 0);									//FLAPS MIDDLE
 			MapKey(&Throttle, FLAPD, 0);									//FLAPS DOWN
@@ -188,7 +188,7 @@ int main()
 				//******Right throttle lever axis mapping**********
 
 				KeyAxis(&Throttle,	SCX, 'o', AXMAP2(3, DX_Shield_Raise_Left, 0, DX_Shield_Raise_Right) );	//SLEW CONTROL X AXIS
-				MapAxis(&Throttle,	SCY, 0);											//SLEW CONTROL Y AXIS
+				MapAxis(&Throttle,	SCY, 0);																//SLEW CONTROL Y AXIS
 				
 
 					//******Right throttle lever buttons mapping*******
@@ -249,13 +249,13 @@ int main()
 			MapKey(&T16000, H1R, PULSE+Cycle_CM_Ammo);										// HAT RIGHT 
 			
 			
-			MapKeyIO(&T16000, TG1,	SEQ(EXEC("weaponSoloFire = 1;"), EXEC("weaponSoloFire = 2;")  ),
-									EXEC("	if(weaponGroupFire==1 & weaponSoloFire==1) ActKey(KEYON+DX_Fire_Weapon_Grp_1); if(weaponGroupFire==1 & weaponSoloFire==2) ActKey(KEYON+DX_Fire_Weapon_Grp_2); if(weaponGroupFire==2) CHAIN(  ActKey(KEYON+DX_Fire_Weapon_Grp_1) , ActKey(KEYON+DX_Fire_Weapon_Grp_2) );  "));	// TRIGGER
-			MapKeyRIO(&T16000,TG1, 	SEQ(EXEC("weaponSoloFire = 1;"), EXEC("weaponSoloFire = 2;")  ),
-									EXEC("	if(weaponGroupFire==1 & weaponSoloFire==1) ActKey(DX_Fire_Weapon_Grp_1); if(weaponGroupFire==1 & weaponSoloFire==2) ActKey(DX_Fire_Weapon_Grp_2); if(weaponGroupFire==2) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) );    ") );	// TRIGGER
-			MapKeyIO(&T16000, TS2,	PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile); 	// STICK BACK BUTTON
-			MapKey(&T16000, TS3, SEQ( EXEC("weaponGroupFire=2;"), EXEC("weaponGroupFire=1;") )); 	// STICK LEFT BUTTON
-			MapKey(&T16000,	TS4, PULSE+Launch_CounterMeasure);							// STICK RIGHT BUTTON
+			MapKeyIO(&T16000, 	TG1, SEQ(EXEC("weaponSelectedGroup = 2;"), EXEC("weaponSelectedGroup = 1;")  ),
+									 EXEC("	if(allWeaponsMode==0 & weaponSelectedGroup==1) ActKey(KEYON+DX_Fire_Weapon_Grp_1); if(allWeaponsMode==0 & weaponSelectedGroup==2) ActKey(KEYON+DX_Fire_Weapon_Grp_2); if(allWeaponsMode==1) CHAIN(  ActKey(KEYON+DX_Fire_Weapon_Grp_1) , ActKey(KEYON+DX_Fire_Weapon_Grp_2) ); "));	// TRIGGER
+			MapKeyRIO(&T16000,	TG1, SEQ(EXEC("weaponSelectedGroup = 2;"), EXEC("weaponSelectedGroup = 1;")  ),
+									 EXEC("	if(allWeaponsMode==0 & weaponSelectedGroup==1) ActKey(DX_Fire_Weapon_Grp_1); if(allWeaponsMode==0 & weaponSelectedGroup==2) ActKey(DX_Fire_Weapon_Grp_2); if(allWeaponsMode==1) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) ); ") );	// TRIGGER
+			MapKeyIO(&T16000, 	TS2, PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile); 					// STICK BACK BUTTON
+			MapKey(&T16000, 	TS3, SEQ( EXEC("allWeaponsMode=0;"), EXEC("allWeaponsMode=1;") )); 	// STICK LEFT BUTTON
+			MapKey(&T16000,		TS4, PULSE+Launch_CounterMeasure);									// STICK RIGHT BUTTON
 
 			MapKey(&T16000, B5, 0);
 			MapKey(&T16000, B6, 0);
@@ -270,7 +270,7 @@ int main()
 			MapKey(&T16000, B15, 0);
 			MapKey(&T16000, B16, 0); 
 			
-
+	//return allWeaponsMode;
 
 }
 
