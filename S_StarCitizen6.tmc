@@ -44,15 +44,13 @@ int main()
 		MapAxis(&Joystick, JOYY, DX_Y_AXIS);		//STICK PITCH AXIS
 		
 		SetSCurve(&Joystick, JOYX,15,0,15,0,0);
-		SetSCurve(&Joystick, JOYY,0,0,0,0,0);
+		SetSCurve(&Joystick, JOYY,0,1,0,0,0);
 
 			//********Stick buttons mapping***********
 	
 			//TRIGGER 1
-			//MapKey(&Joystick, TG1, );				
-			
 			MapKey(&Joystick, TG1, EXEC(" if(allWeaponsMode==0 & weaponSelectedGroup==1) ActKey(KEYON+DX_Fire_Weapon_Grp_1); if(allWeaponsMode==0 & weaponSelectedGroup==2) ActKey(KEYON+DX_Fire_Weapon_Grp_2); if(allWeaponsMode==1) CHAIN(  ActKey(KEYON+DX_Fire_Weapon_Grp_1) , ActKey(KEYON+DX_Fire_Weapon_Grp_2) ); "));	// TRIGGER
-			MapKeyR(&Joystick,TG1, EXEC(" if(allWeaponsMode==0 & weaponSelectedGroup==1) ActKey(DX_Fire_Weapon_Grp_1); if(allWeaponsMode==0 & weaponSelectedGroup==2) ActKey(DX_Fire_Weapon_Grp_2); if(allWeaponsMode==1) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) ); ") );	// TRIGGER
+			MapKeyR(&Joystick,TG1, EXEC(" if(allWeaponsMode==0 & weaponSelectedGroup==1) ActKey(DX_Fire_Weapon_Grp_1); 		 if(allWeaponsMode==0 & weaponSelectedGroup==2) ActKey(DX_Fire_Weapon_Grp_2); 		if(allWeaponsMode==1) CHAIN(  ActKey(DX_Fire_Weapon_Grp_1) , ActKey(DX_Fire_Weapon_Grp_2) ); ") );	// TRIGGER
 			
 			//TRIGGER 2
 			MapKey(&Joystick, TG2, 0);
@@ -61,36 +59,36 @@ int main()
 			MapKey(&Joystick, S1, PULSE+Decoupled_Mode_Toggle);
 	
 			//RED BUTTON
-			MapKey(&Joystick, S2, PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile);		
+			MapKeyIO(&Joystick, S2, PULSE+Cycle_Weapon_Ammo, DX_Launch_Missile);		
 								
 			//IO MODE SWITCH
-			MapKey(&Joystick, S3, 0);				// USED FOR IO TOGGLE!!!
+			MapKey(&Joystick, S3, 0);	// USED FOR IO TOGGLE!!!
 	
 			//PALETTE
 			MapKey(&Joystick, S4, DX_Interaction_Mode);
 			
 			//HAT1 - TRIM HAT
-			MapKeyIO(&Joystick, H1U, PULSE+Video_Record, PULSE+CommLinks_App);		//TRIM HAT UP POSITION
-			MapKeyIO(&Joystick, H1D, PULSE+Print_Screen, PULSE+Cycle_Camera_View);	//TRIM HAT DOWN POSITION
-			MapKey(&Joystick, 	H1L, PULSE+Mobiglas);								//TRIM HAT LEFT POSITION
-			MapKey(&Joystick, 	H1R, PULSE+Map);									//TRIM HAT RIGHT POSITION
-			
-			//HAT2 - TMS
+			MapKey(&Joystick, H1U, SEQ( EXEC("allWeaponsMode=0;"), EXEC("allWeaponsMode=1;") ) );				//TRIM HAT UP POSITION
+			MapKey(&Joystick, H1D, PULSE+Launch_CounterMeasure);												//TRIM HAT DOWN POSITION
+			MapKey(&Joystick, H1L, SEQ( EXEC("weaponSelectedGroup = 1;"), EXEC("weaponSelectedGroup = 2;") ) );	//TRIM HAT LEFT POSITION
+			MapKey(&Joystick, H1R, PULSE+Cycle_CM_Ammo);														//TRIM HAT RIGHT POSITION	
+
+			//HAT2 - TMS			
 			MapKeyIO(&Joystick, H2U, PULSE+Track_Ir_Center, DX_Discord_Push_to_Talk);	//TMS UP POSITION
 			MapKeyIO(&Joystick, H2D, PULSE+Track_Ir_Pause, FOIP_Push_To_Talk);			//TMS DOWN POSITION
-			MapKey(&Joystick, 	H2L, PULSE+ESP_Toggle);									//TMS LEFT POSITION
-			MapKey(&Joystick, 	H2R, PULSE+Match_Target_Velocity);						//TMS RIGHT POSITION			
-
-			//HAT3 - DMS
-			MapKey(&Joystick, H3U, SEQ( EXEC("allWeaponsMode=0;"), EXEC("allWeaponsMode=1;") ) );				//DMS UP POSITION
-			MapKey(&Joystick, H3D, PULSE+Launch_CounterMeasure);												//DMS DOWN POSITION
-			MapKey(&Joystick, H3L, SEQ(EXEC("weaponSelectedGroup = 1;"), EXEC("weaponSelectedGroup = 2;") ) );	//DMS LEFT POSITION
-			MapKey(&Joystick, H3R, PULSE+Cycle_CM_Ammo);														//DMS RIGHT POSITION
+			MapKey	(&Joystick, H2L, PULSE+ESP_Toggle);									//TMS LEFT POSITION
+			MapKey	(&Joystick, H2R, PULSE+Match_Target_Velocity);						//TMS RIGHT POSITION	
 	
+			//HAT3 - DMS
+			MapKeyIO(&Joystick, H3U, PULSE+Video_Record, PULSE+CommLinks_App);		// DMS UP POSITION
+			MapKeyIO(&Joystick, H3D, PULSE+Print_Screen, PULSE+Cycle_Camera_View);	// DMS DOWN POSITION
+			MapKey	(&Joystick, H3L, PULSE+Mobiglas);								// DMS LEFT POSITION
+			MapKey	(&Joystick, H3R, PULSE+Map);									// DMS RIGHT POSITION			
+
 			//HAT4 - CMS
 			MapKeyIO(&Joystick, H4P, PULSE+Cycle_Sub_Target_Back, PULSE+Cycle_Sub_Target);			//CMS PUSHED POSITION
-			MapKeyIO(&Joystick, H4U, PULSE+Pin_Focused_Target, DX_Reticle_Focus);					//CMS UP POSITION
-			MapKeyIO(&Joystick,	H4D, PULSE+Cycle_Pinned_Targets, DX_Target_Nearest_Hostile);		//CMS DOWN POSITION
+			MapKeyIO(&Joystick, H4U, DX_Pin_Focused_Target, DX_Reticle_Focus);						//CMS UP POSITION
+			MapKeyIO(&Joystick,	H4D, DX_Cycle_Pinned_Targets, DX_Target_Nearest_Hostile);			//CMS DOWN POSITION
 			MapKeyIO(&Joystick,	H4L, PULSE+Cycle_Friendly_Targets_Back, DX_Cycle_Friendly_Targets);	//CMS LEFT POSITION
 			MapKeyIO(&Joystick,	H4R, PULSE+Cycle_Hostile_Targets_Back, DX_Cycle_Hostile_Targets);	//CMS RIGHT POSITION
 						
@@ -106,9 +104,10 @@ int main()
 		MapAxis(&Throttle, THR_RIGHT,	DX_THROTTLE_AXIS, AXIS_REVERSED);			//THROTTLE R ENGINE AXIS
 		MapAxis(&Throttle, THR_FC,		DX_Z_AXIS);									//THROTTLE NOT FRICTION AXIS
 		
-		// Le throttle est sur l'axe Throttle Forward
-		SetCustomCurve(&Throttle, THR_LEFT, LIST(0,0, 40,25, 100,100));
-
+		// Le throttle left sert au limiteur de vitesse
+		// Le throttle right est sur l'axe Throttle Forward/Backward
+		// L'axe de friction sert au laser de minage
+		SetCustomCurve(&Throttle, THR_LEFT, LIST(0,0, 40,25, 100,100)); // Courbe logarithmique pour avoir plus de précision en bas de la course
 		
 			//*******Throttle base buttons mapping********
 			
@@ -134,7 +133,7 @@ int main()
 				
 			//SILENCE
 			MapKeyIO(&Throttle, LDGH, 	TEMPO(0, DX_Eject, 1000),
-										TEMPO(0, PULSE+Exit_Seat, 500));	//LANDING GEAR HORN WARNING SILENCER
+										TEMPO(0, PULSE+Exit_Seat, 500));		//LANDING GEAR HORN WARNING SILENCER
 				
 			//AUTOPILOT LASTE
 			MapKeyIO(&Throttle, APPAT, 	PULSE+Power_Toggle, 
@@ -145,26 +144,23 @@ int main()
 				
 			//AUTOPILOT ENGAGE/DISENGAGE
 			MapKey(&Throttle, APDIS, TEMPO(	PULSE+Quantum_Drive_Mode_Toggle, 
-											DX_Quantum_Drive, 200));			//AUTOPILOT ENGAGE/DISENGAGE
-				
+											DX_Quantum_Drive, 200));			//AUTOPILOT ENGAGE/DISENGAGE				
 			
 			//RDR ALTM
-			MapKey(&Throttle, RDRNRM, PULSE+Headlights_Toggle);				//RDR ALTM NORM
-			MapKey(&Throttle, RDRDIS, PULSE+Headlights_Toggle);				//RDR ALTM DIS
+			MapKey(&Throttle, RDRNRM, PULSE+Headlights_Toggle);		//RDR ALTM NORM
+			MapKey(&Throttle, RDRDIS, PULSE+Headlights_Toggle);		//RDR ALTM DIS
 				
-			//EAC			
-			MapKey(&Throttle, EACON, EXEC(" MapAxis(&T16000,JOYY,DX_THROTTLE_AXIS, AXIS_REVERSED, MAP_RELATIVE); SetSCurve(&T16000, JOYY,0,1,0,0,-4); MapAxis(&T16000, RUDDER, DX_YROT_AXIS, AXIS_REVERSED); ActKey(PULSE+KEYON+Landing_System_Toggle);") ); //EAC ARM
-			MapKey(&Throttle, EACOFF, EXEC(" MapAxis(&T16000,JOYY,DX_YROT_AXIS, AXIS_REVERSED, MAP_ABSOLUTE); SetSCurve(&T16000, JOYY,0,1,0,0,0); MapAxis(&T16000, RUDDER, 0); ActKey(PULSE+KEYON+Landing_System_Toggle);") ); //EAC OFF
-				
+			//EAC
+			MapKey(&Throttle, EACON, PULSE+Landing_System_Toggle ); 	//EAC ARM
+			MapKey(&Throttle, EACOFF, PULSE+Landing_System_Toggle ); 	//EAC OFF
+
 			//FLAPS			
 			MapKey(&Throttle, FLAPU, 0 );		// FLAPS UP
 			MapKey(&Throttle, FLAPM, 0 );		// FLAPS MIDDLE
-			MapKey(&Throttle, FLAPD, 0 );		// FLAPS DOWN
-
-			
+			MapKey(&Throttle, FLAPD, 0 );		// FLAPS DOWN			
 			
 			//IDLE
-			MapKey(&Throttle, 	IDLELON, 0);	//IDLE LEFT ENGINE
+			MapKey(&Throttle, 	IDLELON, 0);																				//IDLE LEFT ENGINE
 			MapKey(&Throttle, 	IDLERON, EXEC("SetSCurve(&T16000, JOYX,0,1,0,1,-2);SetSCurve(&T16000, JOYY,0,1,0,0,0);"));	//IDLE RIGHT ENGINE
 			MapKeyR(&Throttle, 	IDLERON, EXEC("SetSCurve(&T16000, JOYX,0,1,0,0,0);SetSCurve(&T16000, JOYY,0,1,0,0,0);"));	
 		
@@ -197,7 +193,7 @@ int main()
 					//******Right throttle lever buttons mapping*******
 					
 					//SLEW CONTROL PUSH BUTTON
-					MapKeyIO(&Throttle, SC, PULSE+Shield_Levels_Reset, 0);				//SLEW CONTROL PUSH BUTTON					
+					MapKeyIO(&Throttle, SC, PULSE+Shield_Levels_Reset, 0);					//SLEW CONTROL PUSH BUTTON					
 
 					//COOLIE HAT
 					MapKeyIO(&Throttle, CSU, DX_Strafe_Forward_Backward_Invert, 0);			//COOLIE HAT UP POSITION
@@ -206,16 +202,16 @@ int main()
 					MapKey(&Throttle, 	CSR, PULSE+Cycle_Gimbal_Modes);						//COOLIE HAT RIGHT POSITION
 
 					//MIC SWITCH
-					MapKey(&Throttle, 	MSP, 0);																//MIC SWITCH PUSHED POSITION
+					MapKey(&Throttle, 	MSP, 0);															//MIC SWITCH PUSHED POSITION
 					MapKeyIO(&Throttle, MSU, PULSE+Reset_Power_Distribution, DX_Shield_Raise_Top);			//MIC SWITCH UP POSITION
 					MapKeyIO(&Throttle, MSD, PULSE+Power_Preset_Inc_Dec_3_Engine, DX_Shield_Raise_Bottom);	//MIC SWITCH DOWN POSITION
 					MapKeyIO(&Throttle, MSL, PULSE+Power_Preset_Inc_Dec_1_Weapons, DX_Shield_Raise_Back);	//MIC SWITCH LEFT POSITION
 					MapKeyIO(&Throttle, MSR, PULSE+Power_Preset_Inc_Dec_2_Shield, DX_Shield_Raise_Front);	//MIC SWITCH RIGHT POSITION
 
 					//SPEED BRAKE
-					MapKey(&Throttle, SPDF, 0);											//SPEED BRAKE FORWARD POSITION
+					MapKey(&Throttle, SPDF, DX_Afterburner);							//SPEED BRAKE FORWARD POSITION
 					MapKey(&Throttle, SPDM, 0);											//SPEED BRAKE MIDDLE POSITION
-					MapKey(&Throttle, SPDB, 0);											//SPEED BRAKE BACKWARD POSITION				
+					MapKey(&Throttle, SPDB, DX_Spacebrake);								//SPEED BRAKE BACKWARD POSITION				
 								
 					//BOAT SWITCH
 					MapKey(&Throttle, 	BSF, PULSE+Mining_Mode_Toggle);					//BOAT SWITCH FORWARD POSITION
@@ -239,24 +235,24 @@ int main()
 
 			MapAxis(&T16000, JOYX, DX_XROT_AXIS);			
 			MapAxis(&T16000, JOYY, DX_YROT_AXIS, AXIS_REVERSED);
-			MapAxis(&T16000, RUDDER, DX_YROT_AXIS, AXIS_REVERSED); 
+			MapAxis(&T16000, RUDDER, DX_THROTTLE_AXIS, AXIS_NORMAL, MAP_RELATIVE); 
 			MapAxis(&T16000, THR);
 			
 			SetSCurve(&T16000, JOYX,0,1,0,0,0);
 			SetSCurve(&T16000, JOYY,0,1,0,0,0);	
-			SetSCurve(&T16000, RUDDER,0,1,0,0,0);
+			SetSCurve(&T16000, RUDDER,0,0,0,0,-6);
 		
 									
-			MapKey(&T16000, H1U, 0);							// HAT UP	
-			MapKey(&T16000, H1D, 0);							// HAT DOWN	
-			MapKey(&T16000, H1L, PULSE+Reticle_Mode_Toggle);	// HAT LEFT
-			MapKey(&T16000, H1R, PULSE+Cycle_Gimbal_Modes);		// HAT RIGHT 
+			MapKeyIO(&T16000, H1U, AXIS(DX_SLIDER_AXIS, +200, 20), AXIS(DX_SLIDER_AXIS, +100, 20) );	// HAT UP	
+			MapKeyIO(&T16000, H1D, AXIS(DX_SLIDER_AXIS, -200, 20), AXIS(DX_SLIDER_AXIS, -100, 20) );	// HAT DOWN	
+			MapKey(&T16000,   H1L, PULSE+Reticle_Mode_Toggle);											// HAT LEFT
+			MapKey(&T16000,   H1R, PULSE+Cycle_Gimbal_Modes);											// HAT RIGHT 
 			
 			
-			MapKey(&T16000, TG1, DX_Afterburner);	// TRIGGER
-			MapKey(&T16000, TS2, DX_Spacebrake); 	// STICK BACK BUTTON
-			MapKey(&T16000, TS3, 0); 				// STICK LEFT BUTTON
-			MapKey(&T16000,	TS4, 0);				// STICK RIGHT BUTTON
+			MapKey(&T16000, TG1, DX_Afterburner);						// TRIGGER
+			MapKey(&T16000, TS2, DX_Spacebrake); 						// STICK BACK BUTTON
+			MapKey(&T16000, TS3, PULSE+Cruise_Control_Toggle ); 		// STICK LEFT BUTTON
+			MapKey(&T16000,	TS4, DX_Strafe_Forward_Backward_Invert);	// STICK RIGHT BUTTON
 
 			MapKey(&T16000, B5, 0);
 			MapKey(&T16000, B6, 0);
@@ -264,13 +260,13 @@ int main()
 			MapKey(&T16000, B8, 0);
 			MapKey(&T16000, B9, 0);
 			MapKey(&T16000, B10, 0);
+			
 			MapKey(&T16000, B11, 0);
 			MapKey(&T16000, B12, 0);
 			MapKey(&T16000, B13, 0);
 			MapKey(&T16000, B14, 0);
 			MapKey(&T16000, B15, 0);
-			MapKey(&T16000, B16, 0); 			
-
+			MapKey(&T16000, B16, 0); 	
 
 }
 

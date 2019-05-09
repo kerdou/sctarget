@@ -30,8 +30,8 @@ define Cycle_All_Targets_Back				USB[0x0]			// NOT NEEDED
 define DX_Cycle_Friendly_Targets			DX17				// DX17
 define Cycle_Friendly_Targets_Back			USB[0x0]			// ADDED TO REMAP
 
-define Pin_Focused_Target					USB[0x1E]			// 1 DEFAULT
-define Cycle_Pinned_Targets					USB[0x21]			// 4 DEFAULT
+define DX_Pin_Focused_Target				DX20				// USB[0x1E]			// 1 DEFAULT
+define DX_Cycle_Pinned_Targets				DX21				// USB[0x21]			// 4 DEFAULT
 define Cycle_Pinned_Targets_Back			USB[0x22]			// 5 ADDED
 
 define DX_Cycle_Hostile_Targets				DX18				// DX18
@@ -147,9 +147,6 @@ define Video_Record							L_ALT+F9
 /////// AVAILABLE DX INPUTS ///////
 
 // DX11
-// DX19
-// DX20
-// DX21
 // DX22
 // DX23
 // DX24
